@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
     sensor_msgs
     cv_bridge
     rostest
+    tf
 )
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(gazebo REQUIRED)

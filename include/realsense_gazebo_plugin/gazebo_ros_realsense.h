@@ -9,6 +9,8 @@
 
 #include <image_transport/image_transport.h>
 #include <camera_info_manager/camera_info_manager.h>
+#include <tf/transform_broadcaster.h>
+#include <ros/ros.h>
 
 #include <string>
 #include <memory>

@@ -10,7 +10,7 @@
         </include>
 
         <include>
-            <uri>model://realsense_camera</uri>
+            <uri>model://realsense_camera_ros</uri>
         </include>
 
         <model name="dummy_model">

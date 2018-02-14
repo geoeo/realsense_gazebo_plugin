@@ -51,6 +51,17 @@ void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
 {
   common::Time current_time = this->world->GetSimTime();
 
+  ignition::math::Vector3d colorCamPos = cam->WorldPosition();
+  //ROS_INFO("x:%f, y:%f, z:%f",colorCamPos.X(),colorCamPos.Y(),colorCamPos.Z());
+
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin( tf::Vector3(colorCamPos.X(), colorCamPos.Y(), colorCamPos.Z()) );
+  tf::Quaternion q;
+  q.setRPY(0, 0, 0);
+  transform.setRotation(q);
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
+
   // identify camera
   std::string camera_id = cam->Name();
   image_transport::Publisher* image_pub;

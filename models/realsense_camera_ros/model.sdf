@@ -3,6 +3,7 @@
   <model name="realsense_camera">
     <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/>
     <pose frame="">0 0 0.015 0 0 0</pose>
+    <static>true</static>
     <link name="link">
       <inertial>
         <mass>0.0615752</mass>
@@ -23,7 +24,7 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://realsense_camera/meshes/realsense.dae</uri>
+            <uri>model://realsense_camera_ros/meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
