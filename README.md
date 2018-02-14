@@ -27,4 +27,4 @@ The package has been tested on ROS indigo on Ubuntu 14.04 with Gazebo 7.
 
 ## Acknowledgement
 
-This is continuation of work done by [guiccbr](https://github.com/guiccbr/) for Intel Corporation and [SyrianSpock](https://github.com/SyrianSpock/).
+This is continuation of work done by [intel](https://github.com/intel/gazebo-realsense) for Intel Corporation and [SyrianSpock](https://github.com/SyrianSpock/).
