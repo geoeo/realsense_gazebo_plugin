@@ -1,5 +1,5 @@
 #include "realsense_gazebo_plugin/gazebo_ros_realsense.h"
-#include <sensor_msgs/fill_image.h>
+
 
 namespace gazebo
 {
@@ -52,13 +52,14 @@ void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
   common::Time current_time = this->world->GetSimTime();
 
   ignition::math::Vector3d colorCamPos = cam->WorldPosition();
+  ignition::math::Quaternion<double> colorCamQuaternion = cam->WorldPose().Rot();
   //ROS_INFO("x:%f, y:%f, z:%f",colorCamPos.X(),colorCamPos.Y(),colorCamPos.Z());
 
   static tf::TransformBroadcaster br;
   tf::Transform transform;
   transform.setOrigin( tf::Vector3(colorCamPos.X(), colorCamPos.Y(), colorCamPos.Z()) );
   tf::Quaternion q;
-  q.setRPY(0, 0, 0);
+  q.setRPY(colorCamQuaternion.Roll(),colorCamQuaternion.Pitch(),colorCamQuaternion.Yaw());
   transform.setRotation(q);
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
 

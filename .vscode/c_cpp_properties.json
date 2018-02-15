@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/opt/ros/kinetic/include",
+                    "/home/marc/Workspace/ROS/realsense_ws/src/realsense_gazebo_plugin/include",
+                    "/home/marc/Workspace/ROS/realsense_ws/src/image_creation/include",
+                    "/usr/include"
+                ]
+            },
+            "includePath": [
+                "/opt/ros/kinetic/include",
+                "/home/marc/Workspace/ROS/realsense_ws/src/realsense_gazebo_plugin/include",
+                "/home/marc/Workspace/ROS/realsense_ws/src/image_creation/include",
+                "/usr/include",
+                "/usr/include/gazebo-7"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 3
+}
