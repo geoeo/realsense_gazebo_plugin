@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
     cv_bridge
     rostest
     tf
+    geometry_msgs
 )
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(gazebo REQUIRED)
@@ -28,6 +29,7 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIR}
     ${GAZEBO_INCLUDE_DIRS}
+    ${OGRE_INCLUDE_DIRS}/Paging
 )
 link_directories(${GAZEBO_LIBRARY_DIRS})
 

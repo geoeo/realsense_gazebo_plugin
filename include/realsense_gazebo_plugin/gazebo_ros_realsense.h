@@ -7,6 +7,7 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/fill_image.h>
+#include <geometry_msgs/Twist.h>
 
 #include <image_transport/image_transport.h>
 #include <camera_info_manager/camera_info_manager.h>
@@ -42,12 +43,18 @@ namespace gazebo
 
     /// \brief A pointer to the ROS node.
     ///  A node will be instantiated if it does not exist.
+    protected: ros::NodeHandle* rosnode_realsense_;
     protected: ros::NodeHandle* rosnode_;
+    
     private: image_transport::ImageTransport* itnode_;
     protected: image_transport::Publisher color_pub_, ir1_pub_, ir2_pub_, depth_pub_;
 
     /// \brief ROS image messages
     protected: sensor_msgs::Image image_msg_, depth_msg_;
+
+    private: ros::Subscriber sub;
+
+    private: void CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg);
   };
 }
 #endif /* _GAZEBO_ROS_REALSENSE_PLUGIN_ */

@@ -18,6 +18,14 @@ GazeboRosRealsense::~GazeboRosRealsense()
 }
 
 /////////////////////////////////////////////////
+void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
+{
+  geometry_msgs::Vector3 linear =  msg->linear;
+  geometry_msgs::Vector3 angular = msg->angular;
+  ROS_INFO("I heard: I got a message on r1/cmd_vel");
+}
+
+/////////////////////////////////////////////////
 void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
   // Make sure the ROS node for Gazebo has already been initialized
@@ -31,13 +39,17 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
   RealSensePlugin::Load(_model, _sdf);
 
-  this->rosnode_ = new ros::NodeHandle("/realsense");
+  this->rosnode_realsense_ = new ros::NodeHandle("/realsense");
+  this->rosnode_ = new ros::NodeHandle("/r1");
+
+  // Subscribe to the https://github.com/tuw-robotics/tuw_teleop/tree/master/tuw_keyboard2twist node
+  sub = rosnode_->subscribe("cmd_vel",1000,&GazeboRosRealsense::CmdVelCallback,this);
 
   // initialize camera_info_manager
   this->camera_info_manager_.reset(
-    new camera_info_manager::CameraInfoManager(*this->rosnode_, "realsense"));
+    new camera_info_manager::CameraInfoManager(*this->rosnode_realsense_, "realsense"));
 
-  this->itnode_ = new image_transport::ImageTransport(*this->rosnode_);
+  this->itnode_ = new image_transport::ImageTransport(*this->rosnode_realsense_);
 
   this->color_pub_ = this->itnode_->advertise("camera/color/image_raw", 2);
   this->ir1_pub_ = this->itnode_->advertise("camera/ir/image_raw", 2);
@@ -49,6 +61,7 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
                                     const transport::PublisherPtr pub)
 {
+  ros::spinOnce();
   common::Time current_time = this->world->GetSimTime();
 
   ignition::math::Vector3d colorCamPos = cam->WorldPosition();
