@@ -18,14 +18,6 @@ GazeboRosRealsense::~GazeboRosRealsense()
 }
 
 /////////////////////////////////////////////////
-void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
-{
-  geometry_msgs::Vector3 linear =  msg->linear;
-  geometry_msgs::Vector3 angular = msg->angular;
-  ROS_INFO("I heard: I got a message on r1/cmd_vel");
-}
-
-/////////////////////////////////////////////////
 void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
   // Make sure the ROS node for Gazebo has already been initialized
@@ -61,7 +53,6 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
                                     const transport::PublisherPtr pub)
 {
-  ros::spinOnce();
   common::Time current_time = this->world->GetSimTime();
 
   ignition::math::Vector3d colorCamPos = cam->WorldPosition();
@@ -158,6 +149,23 @@ void GazeboRosRealsense::OnNewDepthFrame()
 
   // publish to ROS
   this->depth_pub_.publish(this->depth_msg_);
+}
+
+/////////////////////////////////////////////////
+void GazeboRosRealsense::OnUpdate()
+{
+  ros::spinOnce();
+}
+
+/////////////////////////////////////////////////
+void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
+{
+  geometry_msgs::Vector3 linear =  msg->linear;
+  geometry_msgs::Vector3 angular = msg->angular;
+  ignition::math::Vector3d gazebo_linear = ignition::math::Vector3d(linear.x,linear.y,linear.z);
+  ignition::math::Vector3d gazebo_angular = ignition::math::Vector3d(angular.x,angular.y,angular.z);
+  //ROS_INFO("I heard: I got a message on r1/cmd_vel");
+  this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular);
 }
 
 }

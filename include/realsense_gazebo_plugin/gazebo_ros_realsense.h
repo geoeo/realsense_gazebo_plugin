@@ -39,6 +39,8 @@ namespace gazebo
     public: virtual void OnNewFrame(const rendering::CameraPtr cam,
                                     const transport::PublisherPtr pub);
 
+    public: virtual void OnUpdate();
+
     protected: boost::shared_ptr<camera_info_manager::CameraInfoManager> camera_info_manager_;
 
     /// \brief A pointer to the ROS node.
