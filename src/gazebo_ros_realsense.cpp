@@ -55,18 +55,6 @@ void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
 {
   common::Time current_time = this->world->GetSimTime();
 
-  ignition::math::Vector3d colorCamPos = cam->WorldPosition();
-  ignition::math::Quaternion<double> colorCamQuaternion = cam->WorldPose().Rot();
-  //ROS_INFO("x:%f, y:%f, z:%f",colorCamPos.X(),colorCamPos.Y(),colorCamPos.Z());
-
-  static tf::TransformBroadcaster br;
-  tf::Transform transform;
-  transform.setOrigin( tf::Vector3(colorCamPos.X(), colorCamPos.Y(), colorCamPos.Z()) );
-  tf::Quaternion q;
-  q.setRPY(colorCamQuaternion.Roll(),colorCamQuaternion.Pitch(),colorCamQuaternion.Yaw());
-  transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
-
   // identify camera
   std::string camera_id = cam->Name();
   image_transport::Publisher* image_pub;
@@ -193,6 +181,16 @@ void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& ms
                                                            quaternion.GetYaw() + angular.z); */
 
   this->rsModel->SetWorldPose(new_pose);
+
+
+
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin( tf::Vector3(Pos.x, Pos.y, Pos.z) );
+  tf::Quaternion q;
+  q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
+  transform.setRotation(q);
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
 
   
   
