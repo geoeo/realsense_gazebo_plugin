@@ -164,8 +164,38 @@ void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& ms
   geometry_msgs::Vector3 angular = msg->angular;
   ignition::math::Vector3d gazebo_linear = ignition::math::Vector3d(linear.x,linear.y,linear.z);
   ignition::math::Vector3d gazebo_angular = ignition::math::Vector3d(angular.x,angular.y,angular.z);
+  ROS_INFO("Linear Vel on r1/cmd_vel: %f, %f, %f",linear.x,linear.y,linear.z);
+  ROS_INFO("Angular Vel on r1/cmd_vel: %f, %f, %f",angular.x,angular.y,angular.z);
   //ROS_INFO("I heard: I got a message on r1/cmd_vel");
-  this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular);
+  //this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular); // Whats the point of this ?
+
+  gazebo::math::Pose pose = this->rsModel->GetWorldPose();
+  gazebo::math::Quaternion quaternion = pose.rot;
+  gazebo::math::Vector3 Pos = pose.pos;
+  float x_new = Pos.x + linear.x*cos(quaternion.GetYaw());
+  float y_new = Pos.y + linear.x*sin(quaternion.GetYaw());
+
+  
+
+  gazebo::math::Pose new_pose = gazebo::math::Pose(x_new,
+                                                           y_new,
+                                                           0,
+                                                           quaternion.GetRoll() + angular.x,
+                                                           quaternion.GetPitch() + angular.y,
+                                                           quaternion.GetYaw() + angular.z); 
+
+  // Similar to TWIST
+  /*gazebo::math::Pose new_pose = gazebo::math::Pose(gazebo_linear.X() + Pos.x,
+                                                           gazebo_linear.Y() + Pos.y,
+                                                           gazebo_linear.Z() + Pos.z,
+                                                           quaternion.GetRoll() + angular.x,
+                                                           quaternion.GetPitch() + angular.y,
+                                                           quaternion.GetYaw() + angular.z); */
+
+  this->rsModel->SetWorldPose(new_pose);
+
+  
+  
 }
 
 }
