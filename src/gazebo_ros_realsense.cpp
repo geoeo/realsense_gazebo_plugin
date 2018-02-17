@@ -143,6 +143,19 @@ void GazeboRosRealsense::OnNewDepthFrame()
 void GazeboRosRealsense::OnUpdate()
 {
   ros::spinOnce();
+
+  gazebo::math::Pose pose = this->rsModel->GetWorldPose();
+  gazebo::math::Vector3 pos = pose.pos;
+  gazebo::math::Quaternion quaternion = pose.rot;
+
+  // TODO Might put this into OnUpdate() to decouple from subscriber
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin( tf::Vector3(pos.x, pos.y, pos.z) );
+  tf::Quaternion q;
+  q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
+  transform.setRotation(q);
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
 }
 
 /////////////////////////////////////////////////
@@ -184,17 +197,6 @@ void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& ms
                                                            quaternion.GetYaw() + angular.z); */
 
   this->rsModel->SetWorldPose(new_pose);
-
-
-
-  static tf::TransformBroadcaster br;
-  tf::Transform transform;
-  transform.setOrigin( tf::Vector3(Pos.x, Pos.y, Pos.z) );
-  tf::Quaternion q;
-  q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
-  transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "camera_base"));
-
   
   
 }
