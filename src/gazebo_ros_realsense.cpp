@@ -150,27 +150,30 @@ void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& ms
 {
   geometry_msgs::Vector3 linear =  msg->linear;
   geometry_msgs::Vector3 angular = msg->angular;
-  ignition::math::Vector3d gazebo_linear = ignition::math::Vector3d(linear.x,linear.y,linear.z);
-  ignition::math::Vector3d gazebo_angular = ignition::math::Vector3d(angular.x,angular.y,angular.z);
   ROS_INFO("Linear Vel on r1/cmd_vel: %f, %f, %f",linear.x,linear.y,linear.z);
   ROS_INFO("Angular Vel on r1/cmd_vel: %f, %f, %f",angular.x,angular.y,angular.z);
   //ROS_INFO("I heard: I got a message on r1/cmd_vel");
-  //this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular); // Whats the point of this ?
+
 
   gazebo::math::Pose pose = this->rsModel->GetWorldPose();
   gazebo::math::Quaternion quaternion = pose.rot;
+  // Communative because they rotate around the same axis
+  gazebo::math::Quaternion new_quaternion =  gazebo::math::Quaternion(angular.x,angular.y,angular.z)*pose.rot;
+  //gazebo::math::Quaternion new_quaternion =  pose.rot*gazebo::math::Quaternion(angular.x,angular.y,angular.z);
   gazebo::math::Vector3 Pos = pose.pos;
-  float x_new = Pos.x + linear.x*cos(quaternion.GetYaw());
-  float y_new = Pos.y + linear.x*sin(quaternion.GetYaw());
+
+  float x_new = Pos.x + linear.x*cos(new_quaternion.GetYaw());
+  float y_new = Pos.y + linear.x*sin(new_quaternion.GetYaw());
 
   
+  gazebo::math::Pose new_pose = gazebo::math::Pose(gazebo::math::Vector3(x_new,y_new,0),new_quaternion);
 
-  gazebo::math::Pose new_pose = gazebo::math::Pose(x_new,
-                                                           y_new,
-                                                           0,
-                                                           quaternion.GetRoll() + angular.x,
-                                                           quaternion.GetPitch() + angular.y,
-                                                           quaternion.GetYaw() + angular.z); 
+
+  //ignition::math::Vector3d gazebo_linear = ignition::math::Vector3d(linear.x,linear.y,linear.z);
+  //ignition::math::Vector3d gazebo_angular = ignition::math::Vector3d(angular.x,angular.y,angular.z);
+
+  // Whats the point of this ? Only rotates model around its own axis
+  //this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular); 
 
   // Similar to TWIST
   /*gazebo::math::Pose new_pose = gazebo::math::Pose(gazebo_linear.X() + Pos.x,
