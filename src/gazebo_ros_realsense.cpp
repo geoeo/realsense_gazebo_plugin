@@ -113,6 +113,7 @@ void GazeboRosRealsense::OnNewFrame(const rendering::CameraPtr cam,
 }
 
 /////////////////////////////////////////////////
+// https://github.com/Myzhar/ros_depthsense_camera/issues/9
 void GazeboRosRealsense::OnNewDepthFrame()
 {
   // get current time
