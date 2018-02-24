@@ -5,6 +5,7 @@ project(realsense_gazebo_plugin)
 find_package(catkin REQUIRED COMPONENTS
     roscpp
     gazebo_ros
+    gazebo_plugins
     image_transport
     camera_info_manager
     sensor_msgs
@@ -28,7 +29,7 @@ include_directories(
     include
     ${catkin_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIR}
-    ${GAZEBO_INCLUDE_DIRS}
+    ${GAZEBO_INCLUDE_DIRS}    
     ${OGRE_INCLUDE_DIRS}/Paging
 )
 link_directories(${GAZEBO_LIBRARY_DIRS})

@@ -3,6 +3,8 @@
 
 #include "realsense_gazebo_plugin/RealSensePlugin.h"
 
+#include <gazebo_plugins/gazebo_ros_utils.h>
+
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
@@ -57,6 +59,8 @@ namespace gazebo
     private: ros::Subscriber sub;
 
     private: void CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg);
+
+    private:  GazeboRosPtr gazebo_ros_;
   };
 }
 #endif /* _GAZEBO_ROS_REALSENSE_PLUGIN_ */

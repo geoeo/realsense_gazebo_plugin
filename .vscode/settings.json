@@ -1,6 +1,13 @@
 {
     "files.associations": {
         "*.ipp": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "typeinfo": "cpp",
+        "array": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "slist": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp"
     }
 }

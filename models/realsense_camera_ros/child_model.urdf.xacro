@@ -3,11 +3,15 @@
   <!--<plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/> -->
   <!--<static>false</static> -->
 		
-		<joint name="base_link_to_camera_link" type="fixed">
-			<origin xyz="-0.1 0.0 5.1" rpy="0.0 0.0 0.0"/>
-			<parent link="base_link"/>
-			<child link="camera_link"/>
-		</joint>	
+	<xacro:property name="camera_base_x_" value="0.0" />
+	<xacro:property name="camera_base_y_" value="0.0" />
+	<xacro:property name="camera_base_z_" value="0.2" />
+  
+  <joint name="base_link_to_camera_link" type="fixed">
+    <origin xyz="${camera_base_x_} ${camera_base_y_} ${camera_base_z_}" rpy="0.0 0.0 0.0"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>	
 
   <link name="camera_link">
     <pose>0 0 0.015 0 0 0</pose>
@@ -27,7 +31,11 @@
     </collision>
   </link>
   <gazebo>
-    <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/>
+    <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so">
+      <camera_base_x>${camera_base_x_}</camera_base_x>
+      <camera_base_y>${camera_base_y_}</camera_base_y>
+      <camera_base_z>${camera_base_z_}</camera_base_z>
+    </plugin>
   </gazebo>
   <gazebo reference="camera_link">
       <sensor name="color" type="camera">
@@ -35,7 +43,7 @@
         <always_on>1</always_on>
         <update_rate>60</update_rate>
         <visualize>1</visualize>
-        <camera name="__default__">
+        <camera name="rgb_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
             <width>640</width>
@@ -58,7 +66,7 @@
         <always_on>1</always_on>
         <update_rate>60</update_rate>
         <visualize>0</visualize>
-        <camera name="__default__">
+        <camera name="ir_1_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
             <width>640</width>
@@ -81,7 +89,7 @@
         <always_on>1</always_on>
         <update_rate>60</update_rate>
         <visualize>0</visualize>
-        <camera name="__default__">
+        <camera name="ir_2_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
             <width>640</width>
@@ -104,7 +112,7 @@
         <always_on>1</always_on>
         <update_rate>60</update_rate>
         <visualize>0</visualize>
-        <camera name="__default__">
+        <camera name="depth_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
             <width>640</width>
