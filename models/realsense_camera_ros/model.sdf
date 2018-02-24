@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.4">
   <model name="realsense_camera">
-    <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/>
+    <plugin name="realsense_plugin" filename="libsimple_drive_plugin.so"/>
     <pose frame="">0 0 0.015 0 0 0</pose>
     <static>false</static>
     <link name="link">

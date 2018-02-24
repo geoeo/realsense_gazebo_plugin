@@ -34,10 +34,10 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 	gazebo_ros_->isInitialized();
 
   this->rosnode_realsense_ = new ros::NodeHandle("/realsense");
-  this->rosnode_ = new ros::NodeHandle("/r1");
+  //this->rosnode_ = new ros::NodeHandle("/r1");
 
   // Subscribe to the https://github.com/tuw-robotics/tuw_teleop/tree/master/tuw_keyboard2twist node
-  sub = rosnode_->subscribe("cmd_vel",1000,&GazeboRosRealsense::CmdVelCallback,this);
+  //sub = rosnode_->subscribe("cmd_vel",1000,&GazeboRosRealsense::CmdVelCallback,this);
 
   // initialize camera_info_manager
   this->camera_info_manager_.reset(
@@ -147,7 +147,7 @@ void GazeboRosRealsense::OnUpdate()
 {
   ros::spinOnce();
 
-  physics::ModelPtr robot = this->rsModel;
+  physics::ModelPtr robot = this->rsModel->GetParentModel();
   gazebo::math::Pose pose = robot->GetWorldPose();
   gazebo::math::Vector3 pos = pose.pos;
   //gazebo::math::Pose base_link_pose = robot->GetChildLink("base_link")->GetWorldPose();
@@ -264,8 +264,8 @@ void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& ms
                                                            quaternion.GetPitch() + angular.y,
                                                            quaternion.GetYaw() + angular.z); */
 
-  this->rsModel->SetWorldPose(new_pose);
-  
+  //this->rsModel->SetWorldPose(new_pose);
+  this->rsModel->SetWorldPose(gazebo::math::Pose(gazebo::math::Vector3(2,0,0),new_quaternion));
   
 }
 

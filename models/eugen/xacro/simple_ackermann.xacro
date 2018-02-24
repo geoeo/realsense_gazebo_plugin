@@ -5,7 +5,8 @@
 
 	<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann_rear_wheel.xacro"/>
 	<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann_front_wheel.xacro"/>
-	<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann_plugin.xacro"/>
+	<!--<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann_plugin.xacro"/>-->
+	<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_drive.xacro"/>
 	<xacro:include filename="$(find realsense_gazebo_plugin)/models/realsense_camera_ros/child_model.urdf.xacro"/>
 
 	<xacro:property name="height" value="0.01" />
