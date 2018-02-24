@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<robot name="realsense_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--<plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/> -->
+  <!--<static>false</static> -->
+		
+		<joint name="base_link_to_camera_link" type="fixed">
+			<origin xyz="-0.1 0.0 5.1" rpy="0.0 0.0 0.0"/>
+			<parent link="base_link"/>
+			<child link="camera_link"/>
+		</joint>	
+
+  <link name="camera_link">
+    <pose>0 0 0.015 0 0 0</pose>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual name="visual">
+      <geometry>
+        <mesh filename="model://realsense_camera_ros/meshes/realsense.dae"/>
+      </geometry>
+    </visual>
+    <collision name='collision'>
+      <geometry>
+        <box size="0.0078 0.130 0.0192"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo>
+    <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so"/>
+  </gazebo>
+  <gazebo reference="camera_link">
+      <sensor name="color" type="camera">
+        <pose frame="">0 -0.046 0.004 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>1</visualize>
+        <camera name="__default__">
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>RGB_INT8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="ired1" type="camera">
+        <pose frame="">0 -0.06 0.004 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>0</visualize>
+        <camera name="__default__">
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L_INT8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="ired2" type="camera">
+        <pose frame="">0 0.01 0.004 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>0</visualize>
+        <camera name="__default__">
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>L_INT8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="depth" type="depth">
+        <pose frame="">0 -0.03 0.004 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>0</visualize>
+        <camera name="__default__">
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </gazebo>
+</robot>
