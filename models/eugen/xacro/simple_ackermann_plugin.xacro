@@ -6,7 +6,7 @@
 				<plugin name="ackermanndrive_plugin" filename="libackermanndrive_plugin.so">
 					<rosDebugLevel>Debug</rosDebugLevel>
 					<robotNamespace>ackermann</robotNamespace>
-					<CommandTopic>command</CommandTopic>
+					<CommandTopic>cmd_vel</CommandTopic>
 					<OdometryTopicEncoder>odometry_encoder</OdometryTopicEncoder>
 					<OdometryTopicGodview>odometry_godview</OdometryTopicGodview>					
 					<odometryFrame>odom</odometryFrame>

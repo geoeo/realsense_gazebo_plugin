@@ -31,7 +31,7 @@
     </collision>
   </link>
   <gazebo>
-    <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so">
+    <plugin name="ackermanndrive_plugin" filename="librealsense_gazebo_plugin.so">
       <camera_base_x>${camera_base_x_}</camera_base_x>
       <camera_base_y>${camera_base_y_}</camera_base_y>
       <camera_base_z>${camera_base_z_}</camera_base_z>
