@@ -165,45 +165,6 @@ void GazeboRosRealsense::OnUpdate()
   double world_cam_y = pos.y + base_cam_off_y;
   double world_cam_z = pos.z + base_cam_off_z;
 
-
-
-  //ROS_INFO("test: %f, %f, %f",world_cam_x,world_cam_y,world_cam_z);
-
-  //physics::Joint_V child_link = robot->GetChild()
-  //unsigned int l = child_link.size();
-
-  //sensors::SensorManager* man =  sensors::SensorManager::Instance();
-  // sensors::SensorPtr camera = sensors::SensorManager::Instance()->GetSensor("simple_ackermann::base_link::color");
-  // ignition::math::Pose3d cam_pose = camera->Pose();
-
-  // float diff_x = cam_pose.Pos().X();
-  // float diff_y = cam_pose.Pos().Y();
-  // float diff_z = cam_pose.Pos().Z();
-
-  // ROS_INFO("pos: %f,%f,%f",diff_x,diff_y,diff_z);
-
-  // for(unsigned int i = 0; i < childCount; i++){
-  //   const math::Pose pose = base_link->GetChildJoints().at(i)->GetWorldPose();
-  //   //const char *s = robot->GetChild(i)->GetName().c_str();
-  //   //physics::BasePtr base = base_link->GetChild(1);
-  //   //unsigned int t = base->GetType(); // 9
-  //   //ROS_INFO("Type: %u",t);
-  //   float diff_x = pose.pos.x;
-  //   float diff_y = pose.pos.y;
-  //   float diff_z = pose.pos.z;
-  //   //ROS_INFO("pos: %f,%f,%f",diff_x,diff_y,diff_z);
-  //   //gazebo::physics::BallJoint<SimbodyJoint> joint = boost::dynamic_pointer_cast<gazebo::physics::BallJoint<SimbodyJoint>>(base);
-  //   //physics::LinkPtr cam_link = joint.GetChild();
-
-
-    
-
-  // }
-
-  //physics::LinkPtr joint_link = base_link.GetJointLink(1);
-
-  //ROS_INFO("Child Count: %u",childCount);
-
   static tf::TransformBroadcaster br;
 
   gazebo::math::Quaternion quaternion = pose.rot;

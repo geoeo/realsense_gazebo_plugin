@@ -10,7 +10,7 @@
   <arg name="robot_name" default="ackermanndirve" />
 
   <!-- /home/marc/Workspace/ROS/realsense_ws/src/gazebo_ros_pkgs/gazebo_ros/launch -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+  <include file="$(find tuw_gazebo_models)/launch/empty_world.launch"/>
 
   <arg name="model" default="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann.xacro"/>
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />

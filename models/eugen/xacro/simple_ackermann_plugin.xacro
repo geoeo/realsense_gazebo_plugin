@@ -3,7 +3,7 @@
 	<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_ackermann" >
 		<xacro:macro name="ackermanndrive_plugin">
 			<gazebo>
-				<plugin name="ackermanndrive_plugin" filename="libackermanndrive_plugin.so">
+				<plugin name="ackermanndrive_plugin" filename="libackermanndrive_iws_plugin.so">
 					<rosDebugLevel>Debug</rosDebugLevel>
 					<robotNamespace>ackermann</robotNamespace>
 					<CommandTopic>cmd_vel</CommandTopic>
@@ -15,7 +15,7 @@
 					<Track>0.1525</Track>
 					<SteeringWidth>0.095</SteeringWidth>
 					<Wheeldiameter>0.065</Wheeldiameter>
-					<Steeringvelocity>25.0</Steeringvelocity>
+					<Steeringfactor>25.0</Steeringfactor>
 					<Streeringtorque>1.0</Streeringtorque>
 					<Steeringangle>0.4</Steeringangle>
 					<Wheeltorque>0.1</Wheeltorque>
