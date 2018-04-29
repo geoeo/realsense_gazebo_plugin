@@ -61,6 +61,7 @@ namespace gazebo
     private: void CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg);
 
     private:  GazeboRosPtr gazebo_ros_;
+    private: std::string fixed_frame;
   };
 }
 #endif /* _GAZEBO_ROS_REALSENSE_PLUGIN_ */

@@ -15,18 +15,21 @@
 					<Track>0.1525</Track>
 					<SteeringWidth>0.095</SteeringWidth>
 					<Wheeldiameter>0.065</Wheeldiameter>
-					<Steeringfactor>25.0</Steeringfactor>
+					<SteeringVelocity>25.0</SteeringVelocity>
 					<Streeringtorque>1.0</Streeringtorque>
 					<Steeringangle>0.4</Steeringangle>
 					<Wheeltorque>0.1</Wheeltorque>
 					<LeftSteering>left_front_wheelmount_cylinder_to_left_kingpin</LeftSteering>
 					<RightSteering>right_front_wheelmount_cylinder_to_right_kingpin</RightSteering>
+					<GazeboDebug>false</GazeboDebug>
+
 					
 					<LeftFrontWheel>left_kingpin_to_left_front_wheel</LeftFrontWheel>
 					<RightFrontWheel>right_kingpin_to_right_front_wheel</RightFrontWheel>
 					
 					<LeftRearWheel>left_rear_wheel_to_mount</LeftRearWheel>
 					<RightRearWheel>right_rear_wheel_to_mount</RightRearWheel>
+
 				</plugin>
 			</gazebo>
 		</xacro:macro>

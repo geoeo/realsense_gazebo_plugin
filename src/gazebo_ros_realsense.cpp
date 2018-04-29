@@ -30,8 +30,10 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   ROS_INFO("Realsense Gazebo ROS plugin loading.");
 
   RealSensePlugin::Load(_model, _sdf);
-  gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _model, _sdf, "Ackeramnndrive" ) );
-	gazebo_ros_->isInitialized();
+  gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _model, _sdf, "GazeboRosRealsense" ) );
+  gazebo_ros_->isInitialized();
+    gazebo_ros_ -> getParameter<std::string> ( fixed_frame,			"FixedFrame",	"map" );
+
 
   this->rosnode_realsense_ = new ros::NodeHandle("/realsense");
   //this->rosnode_ = new ros::NodeHandle("/r1");
@@ -174,7 +176,7 @@ void GazeboRosRealsense::OnUpdate()
   tf::Quaternion q;
   q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
   transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "robot_base"));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), fixed_frame, "robot_base"));
 
 
   tf::Transform cam_transform;
@@ -182,7 +184,7 @@ void GazeboRosRealsense::OnUpdate()
   tf::Quaternion cam_q;
   cam_q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
   cam_transform.setRotation(cam_q);
-  br.sendTransform(tf::StampedTransform(cam_transform, ros::Time::now(), "world", "camera_base"));
+  br.sendTransform(tf::StampedTransform(cam_transform, ros::Time::now(), fixed_frame, "camera_base"));
 
 
 }

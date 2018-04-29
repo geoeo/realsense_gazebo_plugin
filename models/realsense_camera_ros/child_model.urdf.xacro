@@ -35,6 +35,8 @@
       <camera_base_x>${camera_base_x_}</camera_base_x>
       <camera_base_y>${camera_base_y_}</camera_base_y>
       <camera_base_z>${camera_base_z_}</camera_base_z>
+      <robotNamespace>ackermann</robotNamespace>
+      <FixedFrame>map</FixedFrame>
     </plugin>
   </gazebo>
   <gazebo reference="camera_link">
