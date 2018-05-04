@@ -6,22 +6,32 @@
 				<plugin name="ackermanndrive_plugin" filename="libackermanndrive_iws_plugin.so">
 					<rosDebugLevel>Debug</rosDebugLevel>
 					<robotNamespace>ackermann</robotNamespace>
-					<CommandTopic>cmd_vel</CommandTopic>
+					<CommandTopic>joint_cmds</CommandTopic>
+					<IWSTopic>joint_measures</IWSTopic>
 					<OdometryTopicEncoder>odometry_encoder</OdometryTopicEncoder>
 					<OdometryTopicGodview>odometry_godview</OdometryTopicGodview>					
 					<odometryFrame>odom</odometryFrame>
 					<robotBaseFrame>base_link</robotBaseFrame>
+					<GazeboDebug>false</GazeboDebug>
+
 					<Wheelbase>0.26</Wheelbase>
 					<Track>0.1525</Track>
 					<SteeringWidth>0.095</SteeringWidth>
 					<Wheeldiameter>0.065</Wheeldiameter>
+
 					<SteeringVelocity>25.0</SteeringVelocity>
 					<Streeringtorque>1.0</Streeringtorque>
-					<Steeringangle>0.4</Steeringangle>
+					<SteeringAcceleration>25.0</SteeringAcceleration>
+					<MaxSteeringAngle>0.4</MaxSteeringAngle>
 					<Wheeltorque>0.1</Wheeltorque>
+
+                    <LinearAcceleration>15.0</LinearAcceleration>
+					<MaxVelocityRevolute>25.0</MaxVelocityRevolute>
+					<MaxSteeringOmega>25.0</MaxSteeringOmega>
+
 					<LeftSteering>left_front_wheelmount_cylinder_to_left_kingpin</LeftSteering>
 					<RightSteering>right_front_wheelmount_cylinder_to_right_kingpin</RightSteering>
-					<GazeboDebug>false</GazeboDebug>
+
 
 					
 					<LeftFrontWheel>left_kingpin_to_left_front_wheel</LeftFrontWheel>
