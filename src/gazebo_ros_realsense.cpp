@@ -143,7 +143,7 @@ void GazeboRosRealsense::OnNewDepthFrame()
   // publish to ROS
   this->depth_pub_.publish(this->depth_msg_);
 }
-//TODO: Decouple Camera from Transform update
+//TODO: Decouple Camera from Transform update -> Put this in another plugin (iws?)
 /////////////////////////////////////////////////
 void GazeboRosRealsense::OnUpdate()
 {
@@ -163,6 +163,8 @@ void GazeboRosRealsense::OnUpdate()
   gazebo_ros_->getParameter<double>( base_cam_off_y, 		"camera_base_y",		0.0 );
   gazebo_ros_->getParameter<double>( base_cam_off_z, 		"camera_base_z",		0.0 );
 
+  double model_x_ackermann_offset= -0.09;
+  double model_z_ackermann_offset= -0.03;
   double world_cam_x = pos.x + base_cam_off_x;
   double world_cam_y = pos.y + base_cam_off_y;
   double world_cam_z = pos.z + base_cam_off_z;
@@ -172,7 +174,7 @@ void GazeboRosRealsense::OnUpdate()
   gazebo::math::Quaternion quaternion = pose.rot;
 
   tf::Transform transform;
-  transform.setOrigin( tf::Vector3(pos.x, pos.y, pos.z) );
+  transform.setOrigin( tf::Vector3(pos.x + model_x_ackermann_offset, pos.y, pos.z + model_z_ackermann_offset) );
   tf::Quaternion q;
   q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
   transform.setRotation(q);

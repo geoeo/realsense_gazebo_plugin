@@ -42,13 +42,13 @@
 
 				</plugin>
 			</gazebo>
-						<gazebo>
-                          <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
-                            <frameName>map</frameName>
-                            <bodyName>base_link</bodyName>
-                            <topicName>odom_gt</topicName>
-                            <updateRate>30.0</updateRate>
-                          </plugin>
-                        </gazebo>
+			<gazebo>
+                <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+                    <frameName>map</frameName>
+                    <bodyName>base_link</bodyName>
+                    <topicName>odom_gt</topicName>
+                    <updateRate>30.0</updateRate>
+                </plugin>
+            </gazebo>
 		</xacro:macro>
 	</robot>
