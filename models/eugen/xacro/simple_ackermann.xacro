@@ -10,7 +10,7 @@
 	<!--xacro:property name="wheelwidth" value="0.001" /-->
 	<xacro:property name="wheelwidth" value="0.0275" />
 
-	<xacro:property name="ackermann_x_offset" value="-0.09" />
+	<xacro:property name="ackermann_x_offset" value="-0.095" />
 	<xacro:property name="ackermann_z_offset" value="-0.03" />
 
 	<xacro:include filename="$(find realsense_gazebo_plugin)/models/eugen/xacro/simple_ackermann_rear_wheel.xacro"/>
