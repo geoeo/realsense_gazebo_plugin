@@ -36,6 +36,8 @@
       <camera_base_x>${camera_base_x_}</camera_base_x>
       <camera_base_y>${camera_base_y_}</camera_base_y>
       <camera_base_z>${camera_base_z_}</camera_base_z>
+      <ackermann_x_offset_plugin>${ackermann_x_offset}</ackermann_x_offset_plugin>
+      <ackermann_z_offset_plugin>${ackermann_z_offset}</ackermann_z_offset_plugin>
       <robotNamespace>ackermann</robotNamespace>
       <FixedFrame>map</FixedFrame>
     </plugin>

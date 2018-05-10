@@ -62,6 +62,16 @@ namespace gazebo
 
     private:  GazeboRosPtr gazebo_ros_;
     private: std::string fixed_frame;
+
+    // Values taken from realsense.xacro for publishing camera / ackermann position
+  private:
+    double base_cam_off_x;
+    double base_cam_off_y;
+    double base_cam_off_z;
+
+    double model_x_ackermann_offset;
+    double model_z_ackermann_offset;
+
   };
 }
 #endif /* _GAZEBO_ROS_REALSENSE_PLUGIN_ */

@@ -111,6 +111,7 @@ namespace gazebo
 
     /// \brief Pointer to the World Update event connection.
     protected: event::ConnectionPtr updateConnection;
+
   };
 }
 #endif

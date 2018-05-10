@@ -14,7 +14,7 @@
 					<robotBaseFrame>base_link</robotBaseFrame>
 					<GazeboDebug>false</GazeboDebug>
 
-					<Wheelbase>0.26</Wheelbase>
+					<Wheelbase>${wheelbase}</Wheelbase>
 					<Track>0.1525</Track>
 					<SteeringWidth>0.095</SteeringWidth>
 					<Wheeldiameter>0.065</Wheeldiameter>
@@ -47,6 +47,7 @@
                     <frameName>map</frameName>
                     <bodyName>base_link</bodyName>
                     <topicName>odom_gt</topicName>
+                    <xyzOffset>${ackermann_x_offset} 0 ${ackermann_z_offset}</xyzOffset>
                     <updateRate>30.0</updateRate>
                 </plugin>
             </gazebo>

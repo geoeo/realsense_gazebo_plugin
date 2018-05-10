@@ -32,14 +32,12 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   RealSensePlugin::Load(_model, _sdf);
   gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _model, _sdf, "GazeboRosRealsense" ) );
   gazebo_ros_->isInitialized();
-    gazebo_ros_ -> getParameter<std::string> ( fixed_frame,			"FixedFrame",	"map" );
+  gazebo_ros_ -> getParameter<std::string> ( fixed_frame,			"FixedFrame",	"map" );
 
 
   this->rosnode_realsense_ = new ros::NodeHandle("/realsense");
-  //this->rosnode_ = new ros::NodeHandle("/r1");
 
   // Subscribe to the https://github.com/tuw-robotics/tuw_teleop/tree/master/tuw_keyboard2twist node
-  //sub = rosnode_->subscribe("cmd_vel",1000,&GazeboRosRealsense::CmdVelCallback,this);
 
   // initialize camera_info_manager
   this->camera_info_manager_.reset(
@@ -51,6 +49,14 @@ void GazeboRosRealsense::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   this->ir1_pub_ = this->itnode_->advertise("camera/ir/image_raw", 2);
   this->ir2_pub_ = this->itnode_->advertise("camera/ir2/image_raw", 2);
   this->depth_pub_ = this->itnode_->advertise("camera/depth/image_raw", 2);
+
+  gazebo_ros_->getParameter<double>( base_cam_off_x, 		"camera_base_x",		0.0 );
+  gazebo_ros_->getParameter<double>( base_cam_off_y, 		"camera_base_y",		0.0 );
+  gazebo_ros_->getParameter<double>( base_cam_off_z, 		"camera_base_z",		0.0 );
+
+  gazebo_ros_->getParameter<double>( model_x_ackermann_offset, 		"ackermann_x_offset_plugin",		0.0 );
+  gazebo_ros_->getParameter<double>( model_z_ackermann_offset, 		"ackermann_z_offset_plugin",		0.0 );
+
 }
 
 /////////////////////////////////////////////////
@@ -155,16 +161,6 @@ void GazeboRosRealsense::OnUpdate()
   //gazebo::math::Pose base_link_pose = robot->GetChildLink("base_link")->GetWorldPose();
   // //unsigned int childCount = base_link->GetChildCount();
 
-  double base_cam_off_x;
-  double base_cam_off_y;
-  double base_cam_off_z;
-
-  gazebo_ros_->getParameter<double>( base_cam_off_x, 		"camera_base_x",		0.0 );
-  gazebo_ros_->getParameter<double>( base_cam_off_y, 		"camera_base_y",		0.0 );
-  gazebo_ros_->getParameter<double>( base_cam_off_z, 		"camera_base_z",		0.0 );
-
-  double model_x_ackermann_offset= -0.09;
-  double model_z_ackermann_offset= -0.03;
   double world_cam_x = pos.x + base_cam_off_x;
   double world_cam_y = pos.y + base_cam_off_y;
   double world_cam_z = pos.z + base_cam_off_z;
@@ -174,11 +170,18 @@ void GazeboRosRealsense::OnUpdate()
   gazebo::math::Quaternion quaternion = pose.rot;
 
   tf::Transform transform;
-  transform.setOrigin( tf::Vector3(pos.x + model_x_ackermann_offset, pos.y, pos.z + model_z_ackermann_offset) );
+  transform.setOrigin( tf::Vector3(pos.x, pos.y, pos.z) );
   tf::Quaternion q;
   q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
   transform.setRotation(q);
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), fixed_frame, "robot_base"));
+
+  tf::Transform ackermann_transform;
+  ackermann_transform.setOrigin( tf::Vector3(pos.x + model_x_ackermann_offset, pos.y, pos.z + model_z_ackermann_offset) );
+  tf::Quaternion ackermann_q;
+  ackermann_q.setRPY(quaternion.GetRoll(),quaternion.GetPitch(),quaternion.GetYaw());
+  ackermann_transform.setRotation(ackermann_q);
+  br.sendTransform(tf::StampedTransform(ackermann_transform, ros::Time::now(), fixed_frame, "ackermann_base"));
 
 
   tf::Transform cam_transform;
@@ -189,49 +192,6 @@ void GazeboRosRealsense::OnUpdate()
   br.sendTransform(tf::StampedTransform(cam_transform, ros::Time::now(), fixed_frame, "camera_base"));
 
 
-}
-
-/////////////////////////////////////////////////
-void GazeboRosRealsense::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
-{
-  geometry_msgs::Vector3 linear =  msg->linear;
-  geometry_msgs::Vector3 angular = msg->angular;
-  ROS_INFO("Linear Vel on r1/cmd_vel: %f, %f, %f",linear.x,linear.y,linear.z);
-  ROS_INFO("Angular Vel on r1/cmd_vel: %f, %f, %f",angular.x,angular.y,angular.z);
-  //ROS_INFO("I heard: I got a message on r1/cmd_vel");
-
-
-  gazebo::math::Pose pose = this->rsModel->GetWorldPose();
-  gazebo::math::Quaternion quaternion = pose.rot;
-  // Communative because they rotate around the same axis
-  gazebo::math::Quaternion new_quaternion =  gazebo::math::Quaternion(angular.x,angular.y,angular.z)*pose.rot;
-  //gazebo::math::Quaternion new_quaternion =  pose.rot*gazebo::math::Quaternion(angular.x,angular.y,angular.z);
-  gazebo::math::Vector3 Pos = pose.pos;
-
-  float x_new = Pos.x + linear.x*cos(new_quaternion.GetYaw());
-  float y_new = Pos.y + linear.x*sin(new_quaternion.GetYaw());
-
-  
-  gazebo::math::Pose new_pose = gazebo::math::Pose(gazebo::math::Vector3(x_new,y_new,0),new_quaternion);
-
-
-  //ignition::math::Vector3d gazebo_linear = ignition::math::Vector3d(linear.x,linear.y,linear.z);
-  //ignition::math::Vector3d gazebo_angular = ignition::math::Vector3d(angular.x,angular.y,angular.z);
-
-  // Whats the point of this ? Only rotates model around its own axis
-  //this->rsModel->SetWorldTwist(gazebo_linear,gazebo_angular); 
-
-  // Similar to TWIST
-  /*gazebo::math::Pose new_pose = gazebo::math::Pose(gazebo_linear.X() + Pos.x,
-                                                           gazebo_linear.Y() + Pos.y,
-                                                           gazebo_linear.Z() + Pos.z,
-                                                           quaternion.GetRoll() + angular.x,
-                                                           quaternion.GetPitch() + angular.y,
-                                                           quaternion.GetYaw() + angular.z); */
-
-  //this->rsModel->SetWorldPose(new_pose);
-  this->rsModel->SetWorldPose(gazebo::math::Pose(gazebo::math::Vector3(2,0,0),new_quaternion));
-  
 }
 
 }

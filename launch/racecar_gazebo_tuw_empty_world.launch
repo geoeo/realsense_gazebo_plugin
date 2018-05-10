@@ -6,8 +6,7 @@
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
   <arg name="headless" default="false"/>
-  <arg name="debug" default="false"/>
-  <arg name="robot_name" default="ackermanndirve" />
+  <arg name="robot_name" default="ackermanndrive" />
 
   <!-- /home/marc/Workspace/ROS/realsense_ws/src/gazebo_ros_pkgs/gazebo_ros/launch -->
   <include file="$(find tuw_gazebo_models)/launch/empty_world.launch"/>
@@ -22,5 +21,13 @@
     <param name="publish_frequency" type="double" value="30.0" />
   </node>
 
+
+   <node pkg="ackermanndrive" name="ackermann_odom_publisher" type="ackermann_iws_model" output="screen">
+      <remap from="iws_channel" to="/ackermann/joint_measures"/>
+      <remap from="child_frame" to="base_link"/>
+   </node>
+
+
 </launch>
+
 
